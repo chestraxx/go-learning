@@ -17,42 +17,46 @@ func main() {
 		fmt.Print("Enter your choice: ")
 		fmt.Scan(&choice)
 
-		if choice == 1 {
+		switch choice {
+		case 1:
 			fmt.Println("Enter amount to deposit: ")
 			var amount float64
 			fmt.Scan(&amount)
 
 			if amount <= 0 {
 				fmt.Println("Invalid amount")
-				break
+				continue
 			}
 
 			balance += amount
 			fmt.Println("Your balance is:", balance)
-		} else if choice == 2 {
+
+		case 2:
 			fmt.Println("Enter amount to withdraw: ")
 			var amount float64
 			fmt.Scan(&amount)
 
 			if amount <= 0 {
 				fmt.Println("Invalid amount")
-				break
+				continue
 			}
 
 			if amount > balance {
 				fmt.Println("Insufficient balance")
-				break
+				continue
 			}
 
 			balance -= amount
 			fmt.Println("Your balance is:", balance)
-		} else if choice == 3 {
+
+		case 3:
 			fmt.Println("Your balance is:", balance)
-		} else {
+
+		default:
 			fmt.Println("Goodbye!")
-			break
+			fmt.Println("Thanks for using Go Bank!")
+			return
 		}
 	}
 
-	fmt.Println("Thanks for using Go Bank!")
 }
