@@ -35,6 +35,7 @@ func main() {
 		fmt.Println("ERROR")
 		fmt.Println(err)
 		fmt.Println("=======")
+		panic("Error reading balance from file")
 	}
 
 	fmt.Println("Welcome to Go Bank!")
