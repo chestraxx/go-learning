@@ -17,9 +17,10 @@ func main() {
 		return
 	}
 
+	admin := user.NewAdmin("admin@gmail.com", "password")
+
 	fmt.Println(person.String())
-	person.ClearName()
-	fmt.Println(person.String())
+	fmt.Println(admin.String())
 }
 
 func getUserInput(text string) (value string, err error) {

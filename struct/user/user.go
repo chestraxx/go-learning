@@ -13,6 +13,29 @@ type Person struct {
 	createdAt time.Time
 }
 
+type Admin struct {
+	email    string
+	password string
+	Person
+}
+
+func NewAdmin(email, password string) Admin {
+	if email == "" || password == "" {
+		return Admin{}
+	}
+
+	return Admin{
+		email:    email,
+		password: password,
+		Person: Person{
+			firstName: "Admin",
+			lastName:  "",
+			birth:     "--",
+			createdAt: time.Now(),
+		},
+	}
+}
+
 func New(firstName, lastName, birth string) (*Person, error) {
 	if firstName == "" || lastName == "" || birth == "" {
 		return nil, errors.New("invalid name or birth")
