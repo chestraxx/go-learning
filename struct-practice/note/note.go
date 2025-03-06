@@ -24,6 +24,6 @@ func New(title, content string) (*Note, error) {
 	}, nil
 }
 
-func (n Note) String() string {
+func (n *Note) String() string {
 	return fmt.Sprintf("Title: %s\nContent: %s\nCreated at: %s\n", n.Title, n.Content, n.createdAt)
 }

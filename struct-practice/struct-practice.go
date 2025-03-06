@@ -1,19 +1,27 @@
 package main
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
+	"os"
+	"strings"
 
 	"example.com/struct-practice/note"
 )
 
 func getUserInput(text string) (value string, err error) {
 	fmt.Print(text)
-	fmt.Scanln(&value)
 
+	reader := bufio.NewReader(os.Stdin)
+
+	value, err = reader.ReadString('\n')
 	if value == "" {
 		return "", errors.New("invalid value")
 	}
+
+	value = strings.TrimSuffix(value, "\n")
+	value = strings.TrimSuffix(value, "\r")
 
 	return
 }
