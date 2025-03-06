@@ -10,9 +10,9 @@ import (
 )
 
 type Note struct {
-	Title     string
-	Content   string
-	createdAt time.Time
+	Title     string    `json:"title"`
+	Content   string    `json:"content"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 func New(title, content string) (*Note, error) {
@@ -23,12 +23,12 @@ func New(title, content string) (*Note, error) {
 	return &Note{
 		Title:     title,
 		Content:   content,
-		createdAt: time.Now(),
+		CreatedAt: time.Now(),
 	}, nil
 }
 
 func (n *Note) String() string {
-	return fmt.Sprintf("Title: %s\nContent: %s\nCreated at: %s\n", n.Title, n.Content, n.createdAt)
+	return fmt.Sprintf("Title: %s\nContent: %s\nCreated at: %s\n", n.Title, n.Content, n.CreatedAt)
 }
 
 func (n Note) Save() error {
