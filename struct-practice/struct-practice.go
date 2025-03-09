@@ -8,7 +8,21 @@ import (
 	"strings"
 
 	"example.com/struct-practice/note"
+	"example.com/struct-practice/todo"
 )
+
+type saver interface {
+	Save() error
+}
+
+type displayer interface {
+	String() string
+}
+
+type outputtable interface {
+	saver
+	displayer
+}
 
 func getUserInput(text string) (value string, err error) {
 	fmt.Print(text)
@@ -42,26 +56,49 @@ func getNoteData() (title, content string, err error) {
 	return
 }
 
+func getTodoData() (value string, err error) {
+	return getUserInput("Todo text: ")
+}
+
+func saveData(data saver) error {
+	err := data.Save()
+	if err != nil {
+		fmt.Println("Saved failed")
+		return err
+	}
+
+	fmt.Println("Saved successfully")
+	return nil
+}
+
+func outputData(data outputtable) {
+	fmt.Print(data.String())
+	saveData(data)
+}
+
 func main() {
+	todoText, err := getTodoData()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	todoNote, err := todo.New(todoText)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	outputData(todoNote)
+
 	title, content, err := getNoteData()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-
 	note, err := note.New(title, content)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-
-	fmt.Println(note.String())
-	err = note.Save()
-	if err != nil {
-		fmt.Println("Note saved failed")
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println("Note saved successfully")
+	outputData(note)
 }
