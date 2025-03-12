@@ -11,4 +11,8 @@ func main() {
 
 	fmt.Println(prices, productNames)
 	fmt.Println(prices[3])
+
+	featuredPrices := prices[1:]
+	highlightedPrices := prices[:1]
+	fmt.Println(featuredPrices, highlightedPrices)
 }
