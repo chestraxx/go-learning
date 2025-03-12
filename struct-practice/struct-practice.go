@@ -76,15 +76,7 @@ func outputData(data outputtable) {
 	saveData(data)
 }
 
-func print(value any) {
-	fmt.Println(value)
-}
-
 func main() {
-	print("Hello World")
-	print(10)
-	print(10.5)
-
 	todoText, err := getTodoData()
 	if err != nil {
 		fmt.Println(err)
