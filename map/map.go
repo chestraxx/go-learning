@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+type floatMap map[string]float64
+
 func main() {
 	// map
 	websites := map[string]string{
@@ -24,7 +26,7 @@ func main() {
 	fmt.Println(userNames)
 
 	// make func with map
-	courseRatings := make(map[string]float64, 3)
+	courseRatings := make(floatMap, 3)
 	courseRatings["Go"] = 4.9
 	courseRatings["Python"] = 4.8
 	courseRatings["JavaScript"] = 4.7
