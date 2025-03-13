@@ -7,6 +7,12 @@ func main() {
 		"Google":   "https://google.com",
 		"Facebook": "https://facebook.com",
 	}
+	fmt.Println(websites)
+	fmt.Println(websites["Google"])
 
+	websites["Twitter"] = "https://twitter.com"
+	fmt.Println(websites)
+
+	delete(websites, "Google")
 	fmt.Println(websites)
 }
