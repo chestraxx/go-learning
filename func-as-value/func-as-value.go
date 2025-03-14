@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type transformFunc func(int) int
 
@@ -43,6 +45,21 @@ func main() {
 	// recursion
 	number := 5
 	fmt.Println("number is", number, "| factorial is", factorial(number))
+
+	// variadic func
+	// numbers = []int{1, 2, 3}
+	fmt.Println(1, 2, 3)
+	sum_ := sum(1, 2, 3)
+
+	fmt.Println("sum is", sum_)
+}
+
+func sum(numbers ...int) (sum int) {
+	for _, number := range numbers {
+		sum += number
+	}
+
+	return sum
 }
 
 func factorial(number int) int {
