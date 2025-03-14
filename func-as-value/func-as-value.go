@@ -39,6 +39,18 @@ func main() {
 	factor := 5
 	fifth := transform(&numbers, createTransformFunc(factor))
 	fmt.Println(fifth)
+
+	// recursion
+	number := 5
+	fmt.Println("number is", number, "| factorial is", factorial(number))
+}
+
+func factorial(number int) int {
+	if number == 0 {
+		return 1
+	}
+
+	return number * factorial(number-1)
 }
 
 func createTransformFunc(factor int) transformFunc {
