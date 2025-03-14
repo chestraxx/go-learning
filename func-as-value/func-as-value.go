@@ -31,6 +31,20 @@ func main() {
 		return number * 4
 	})
 	fmt.Println(quad)
+
+	// closure
+	numbers = []int{1, 2, 3}
+	fmt.Println(numbers)
+
+	factor := 5
+	fifth := transform(&numbers, createTransformFunc(factor))
+	fmt.Println(fifth)
+}
+
+func createTransformFunc(factor int) transformFunc {
+	return func(number int) int {
+		return number * factor
+	}
 }
 
 func getTransformFunc(numbers *[]int) transformFunc {
