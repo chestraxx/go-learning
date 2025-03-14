@@ -8,18 +8,29 @@ func main() {
 	numbers := []int{1, 2, 3, 4, 5}
 	fmt.Println(numbers)
 
+	// func as parameter value
 	double := transform(&numbers, doubled)
 	fmt.Println(double)
 
 	triple := transform(&numbers, tripled)
 	fmt.Println(triple)
 
+	// func as return value
 	moreNumbers := []int{6, 3, 4, 5}
 	fmt.Println(moreNumbers)
 
 	tranFunc := getTransformFunc(&moreNumbers)
 	tNumber := transform(&moreNumbers, tranFunc)
 	fmt.Println(tNumber)
+
+	// anonymous func
+	numbers = []int{1, 2, 3}
+	fmt.Println(numbers)
+
+	quad := transform(&numbers, func(number int) int {
+		return number * 4
+	})
+	fmt.Println(quad)
 }
 
 func getTransformFunc(numbers *[]int) transformFunc {
