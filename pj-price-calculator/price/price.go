@@ -4,14 +4,14 @@ import (
 	"fmt"
 
 	"example.com/pj-price-calculator/conversion"
-	filemanager "example.com/pj-price-calculator/file-manager"
+	iomanager "example.com/pj-price-calculator/io-manager"
 )
 
 type PriceWithTaxJob struct {
-	IOManager      *filemanager.FileManager `json:"-"`
-	TaxRate        float64                  `json:"tax_rate"`
-	Prices         []float64                `json:"prices"`
-	PriceWithTaxes map[string]string        `json:"prices_with_taxes"`
+	IOManager      iomanager.IOManager `json:"-"`
+	TaxRate        float64             `json:"tax_rate"`
+	Prices         []float64           `json:"prices"`
+	PriceWithTaxes map[string]string   `json:"prices_with_taxes"`
 }
 
 func (p *PriceWithTaxJob) LoadData() {
@@ -43,9 +43,9 @@ func (p *PriceWithTaxJob) Process() {
 	p.IOManager.WriteFile(p)
 }
 
-func New(fm *filemanager.FileManager, taxRate float64) *PriceWithTaxJob {
+func New(io iomanager.IOManager, taxRate float64) *PriceWithTaxJob {
 	return &PriceWithTaxJob{
-		IOManager:      fm,
+		IOManager:      io,
 		TaxRate:        taxRate,
 		Prices:         []float64{10, 20, 30},
 		PriceWithTaxes: make(map[string]string),
