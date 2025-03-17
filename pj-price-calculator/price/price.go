@@ -14,24 +14,27 @@ type PriceWithTaxJob struct {
 	PriceWithTaxes map[string]string   `json:"prices_with_taxes"`
 }
 
-func (p *PriceWithTaxJob) LoadData() {
+func (p *PriceWithTaxJob) LoadData() error {
 	lines, err := p.IOManager.ReadFile()
 	if err != nil {
-		fmt.Println(err)
-		return
+		return err
 	}
 
 	prices, err := conversion.StringsToFloat(lines)
 	if err != nil {
-		fmt.Println(err)
-		return
+		return err
 	}
 
 	p.Prices = prices
+	return nil
 }
 
-func (p *PriceWithTaxJob) Process() {
-	p.LoadData()
+func (p *PriceWithTaxJob) Process() error {
+	err := p.LoadData()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
 
 	result := make(map[string]string)
 	for _, price := range p.Prices {
@@ -40,7 +43,7 @@ func (p *PriceWithTaxJob) Process() {
 	}
 
 	p.PriceWithTaxes = result
-	p.IOManager.WriteFile(p)
+	return p.IOManager.WriteFile(p)
 }
 
 func New(io iomanager.IOManager, taxRate float64) *PriceWithTaxJob {

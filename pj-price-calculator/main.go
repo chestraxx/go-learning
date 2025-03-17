@@ -12,10 +12,14 @@ func main() {
 	taxRates := []float64{0, 0.07, 0.1, 0.15}
 
 	for _, taxRate := range taxRates {
-		fm := filemanager.New("input.txt", "result_"+fmt.Sprintf("%.2f", taxRate*100)+".json")
+		fm := filemanager.New("prices.txt", "result_"+fmt.Sprintf("%.2f", taxRate*100)+".json")
 		// cmd := cmdmanager.New()
 
 		priceWithTaxJob := price.New(fm, taxRate)
-		priceWithTaxJob.Process()
+		err := priceWithTaxJob.Process()
+		if err != nil {
+			fmt.Println("Process failed")
+			fmt.Println(err)
+		}
 	}
 }
