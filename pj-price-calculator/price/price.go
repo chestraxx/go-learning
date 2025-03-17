@@ -8,10 +8,10 @@ import (
 )
 
 type PriceWithTaxJob struct {
-	IOManager      *filemanager.FileManager
-	TaxRate        float64
-	Prices         []float64
-	PriceWithTaxes map[string]string
+	IOManager      *filemanager.FileManager `json:"-"`
+	TaxRate        float64                  `json:"tax_rate"`
+	Prices         []float64                `json:"prices"`
+	PriceWithTaxes map[string]string        `json:"prices_with_taxes"`
 }
 
 func (p *PriceWithTaxJob) LoadData() {
