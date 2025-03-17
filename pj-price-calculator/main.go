@@ -1,20 +1,21 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"example.com/pj-price-calculator/price"
+)
 
 func main() {
-	prices := []float64{10, 20, 30}
 	taxRates := []float64{0, 0.07, 0.1, 0.15}
 
 	result := make(map[float64][]float64)
 
 	for _, taxRate := range taxRates {
-		var priceWithTax []float64 = make([]float64, len(prices))
-		for priceIndex, price := range prices {
-			priceWithTax[priceIndex] = price * (1 + taxRate)
-		}
+		priceWithTaxJob := price.New(taxRate)
+		priceWithTaxJob.Process()
 
-		result[taxRate] = priceWithTax
+		// result[taxRate] = priceWithTaxJob.PriceWithTaxes
 	}
 
 	fmt.Println(result)
