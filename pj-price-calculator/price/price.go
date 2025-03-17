@@ -5,13 +5,12 @@ import (
 
 	"example.com/pj-price-calculator/conversion"
 	filemanager "example.com/pj-price-calculator/file-manager"
-	"example.com/pj-price-calculator/filemanager"
 )
 
 type PriceWithTaxJob struct {
 	TaxRate        float64
 	Prices         []float64
-	PriceWithTaxes map[string]float64
+	PriceWithTaxes map[string]string
 }
 
 func (p *PriceWithTaxJob) LoadData() {
@@ -39,14 +38,14 @@ func (p *PriceWithTaxJob) Process() {
 		result[fmt.Sprintf("%.2f", price)] = fmt.Sprintf("%.2f", priceWithTax)
 	}
 
-	fmt.Println(result)
-	// p.PriceWithTaxes = result
+	p.PriceWithTaxes = result
+	filemanager.WriteFileJSON(fmt.Sprintf("result_%.2f.json", p.TaxRate*100), p)
 }
 
 func New(taxRate float64) *PriceWithTaxJob {
 	return &PriceWithTaxJob{
 		TaxRate:        taxRate,
 		Prices:         []float64{10, 20, 30},
-		PriceWithTaxes: make(map[string]float64),
+		PriceWithTaxes: make(map[string]string),
 	}
 }
