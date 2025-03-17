@@ -1,7 +1,10 @@
 package price
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strconv"
 )
 
 type PriceWithTaxJob struct {
@@ -10,10 +13,47 @@ type PriceWithTaxJob struct {
 	PriceWithTaxes map[string]float64
 }
 
+func (p *PriceWithTaxJob) LoadData() {
+	file, err := os.Open("prices.txt")
+	if err != nil {
+		fmt.Println("Error opening file", err)
+		return
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	var lines []string
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+
+	err = scanner.Err()
+	if err != nil {
+		fmt.Println("Error reading file", err)
+		return
+	}
+
+	prices := make([]float64, len(lines))
+	for index, line := range lines {
+		floatPrice, err := strconv.ParseFloat(line, 64)
+		if err != nil {
+			fmt.Println("Error parsing price", err)
+			return
+		}
+
+		prices[index] = floatPrice
+	}
+
+	p.Prices = prices
+}
+
 func (p *PriceWithTaxJob) Process() {
-	result := make(map[string]float64)
+	p.LoadData()
+
+	result := make(map[string]string)
 	for _, price := range p.Prices {
-		result[fmt.Sprintf("%.2f", price)] = price * (1 + p.TaxRate)
+		priceWithTax := price * (1 + p.TaxRate)
+		result[fmt.Sprintf("%.2f", price)] = fmt.Sprintf("%.2f", priceWithTax)
 	}
 
 	fmt.Println(result)
