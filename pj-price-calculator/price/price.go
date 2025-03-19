@@ -29,11 +29,10 @@ func (p *PriceWithTaxJob) LoadData() error {
 	return nil
 }
 
-func (p *PriceWithTaxJob) Process() error {
+func (p *PriceWithTaxJob) Process(doneChan chan bool) {
 	err := p.LoadData()
 	if err != nil {
 		fmt.Println(err)
-		return err
 	}
 
 	result := make(map[string]string)
@@ -43,7 +42,10 @@ func (p *PriceWithTaxJob) Process() error {
 	}
 
 	p.PriceWithTaxes = result
-	return p.IOManager.WriteFile(p)
+	p.IOManager.WriteFile(p)
+
+	doneChan <- true
+	close(doneChan)
 }
 
 func New(io iomanager.IOManager, taxRate float64) *PriceWithTaxJob {
