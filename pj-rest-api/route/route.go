@@ -8,4 +8,5 @@ func InitRoute(r *gin.Engine) {
 	r.POST("/events", createEvent)
 	r.PUT("/event/:id", updateEvent)
 	r.DELETE("/event/:id", deleteEvent)
+	r.POST("/signup", signup)
 }
