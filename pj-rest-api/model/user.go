@@ -2,7 +2,6 @@ package model
 
 import (
 	"errors"
-	"fmt"
 
 	"example.com/pj-rest-api/db"
 	"example.com/pj-rest-api/utils"
@@ -43,19 +42,17 @@ func (u User) Save() error {
 
 func (u User) Login() error {
 	query := `
-	SELECT password
+	SELECT id, password
 	FROM user
 	WHERE email = ?`
 
 	row := db.DB.QueryRow(query, u.Email)
 
 	var hashedPassword string
-	err := row.Scan(&hashedPassword)
+	err := row.Scan(&u.ID, &hashedPassword)
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(utils.CheckPasswordHash(u.Password, hashedPassword))
 
 	if !utils.CheckPasswordHash(u.Password, hashedPassword) {
 		return errors.New("invalid password")
