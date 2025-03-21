@@ -9,4 +9,5 @@ func InitRoute(r *gin.Engine) {
 	r.PUT("/event/:id", updateEvent)
 	r.DELETE("/event/:id", deleteEvent)
 	r.POST("/signup", signup)
+	r.POST("/login", login)
 }
