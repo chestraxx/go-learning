@@ -7,4 +7,5 @@ func InitRoute(r *gin.Engine) {
 	r.GET("/events/:id", getEvent)
 	r.POST("/events", createEvent)
 	r.PUT("/event/:id", updateEvent)
+	r.DELETE("/event/:id", deleteEvent)
 }
