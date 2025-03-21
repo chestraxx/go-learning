@@ -7,7 +7,7 @@ import (
 )
 
 type Event struct {
-	ID          int       ``
+	ID          int64     ``
 	Name        string    `binding:"required"`
 	Description string    `binding:"required"`
 	Location    string    `binding:"required"`
@@ -32,7 +32,7 @@ func (e Event) Save() error {
 	}
 
 	id, err := result.LastInsertId()
-	e.ID = int(id)
+	e.ID = id
 
 	return err
 }
@@ -58,4 +58,19 @@ func GetAllEvents() ([]Event, error) {
 	}
 
 	return events, nil
+}
+
+func GetEvent(id int64) (*Event, error) {
+	query := `
+	SELECT id, name, description, location, dateTime, user_id
+	FROM event
+	WHERE id = ?`
+
+	var event Event
+	err := db.DB.QueryRow(query, id).Scan(&event.ID, &event.Name, &event.Description, &event.Location, &event.DateTime, &event.UserID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &event, nil
 }
