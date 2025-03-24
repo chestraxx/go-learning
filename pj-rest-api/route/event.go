@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"example.com/pj-rest-api/model"
+	"example.com/pj-rest-api/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -41,8 +42,14 @@ func createEvent(context *gin.Context) {
 		return
 	}
 
+	err := utils.VerifyJWT(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
+		return
+	}
+
 	var event model.Event
-	err := context.ShouldBindJSON(&event)
+	err = context.ShouldBindJSON(&event)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
