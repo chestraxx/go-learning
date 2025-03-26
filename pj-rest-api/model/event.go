@@ -105,3 +105,18 @@ func GetEvent(id int64) (*Event, error) {
 
 	return &event, nil
 }
+
+func (e Event) Register(userId int64) error {
+	query := `
+	INSERT INTO registration (event_id, user_id)
+	VALUES (?, ?)`
+	stmt, err := db.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(e.ID, userId)
+
+	return err
+}

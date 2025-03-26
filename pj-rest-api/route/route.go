@@ -16,4 +16,6 @@ func InitRoute(r *gin.Engine) {
 	auth.POST("/event", createEvent)
 	auth.PUT("/event/:id", updateEvent)
 	auth.DELETE("/event/:id", deleteEvent)
+	auth.POST("/event/:id/register", registerForEvent)
+	auth.DELETE("/event/:id/register", unregisterForEvent)
 }
