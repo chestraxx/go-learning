@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"example.com/pj-rest-api/model"
-	"example.com/pj-rest-api/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,26 +35,14 @@ func getEvents(context *gin.Context) {
 }
 
 func createEvent(context *gin.Context) {
-	token := context.Request.Header.Get("Authorization")
-	if token == "" {
-		context.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
-		return
-	}
-
-	userId, err := utils.VerifyJWT(token)
-	if err != nil {
-		context.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
-		return
-	}
-
 	var event model.Event
-	err = context.ShouldBindJSON(&event)
+	err := context.ShouldBindJSON(&event)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	event.UserID = userId
+	event.UserID = context.GetInt64("userId")
 	err = event.Save()
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
